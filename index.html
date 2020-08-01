@@ -1,0 +1,103 @@
+<!-- <!DOCTYPE html> -->
+<html>
+
+<head>
+  <!-- <meta charset="UTF-8"> -->
+  <!-- <meta name="viewport" content="initial-scale=1.0, user-scalable=no"> -->
+  <title>PanMap</title>
+  <style>
+    html,
+    body {
+      width: 100%;
+      border: 0;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container" style="width:100%;height:100%;position:absolute;">
+  </div>
+  <span id="lnglat"
+    style="position: absolute;background-color: #d8dbde;bottom:5px;right:10px;padding: 1px 5px;opacity: 0.7;border-radius: 3px;"></span>
+
+</body>
+<script src="https://webapi.amap.com/loader.js"></script>
+<script type="text/javascript">
+  AMapLoader.load({
+    key: '8b5d25c98921ce97d1f98f9f99c43372', //首次调用load必须填写key
+    version: '2.0',     //JSAPI 版本号
+    plugins: [
+      'AMap.Scale', 
+    'AMap.ToolBar',
+      'AMap.MapType', 
+      'AMap.HawkEye', 
+      'AMap.ControlBar', 
+      'AMap.Geolocation',
+      "AMap.OverView"
+      ]
+  }).then((AMap) => {
+    var map = new AMap.Map('container', {
+      center: [120.052352,30.246379],
+      zoom: 16,
+    });
+    map.addControl(new AMap.Scale())
+    map.addControl(new AMap.ToolBar({
+      position: { right: 10, bottom: 40 }
+    }))
+    map.addControl(new AMap.MapType({
+      position: { top: 120, right: 10 }
+    }))
+    map.addControl(new AMap.Geolocation({
+      position:{right:10,bottom:110}
+    }));
+    // map.addControl(new AMap.HawkEye({
+    //   isOpen: true,
+    //     // position: { bottom: 50, left: 10 }
+    // }))
+    map.addControl(new AMap.ControlBar({
+      visible: true,
+      position: {
+        top: 10,
+        right: 10
+      }
+    }))
+    map.on('click', function (e) {
+      console.log(e)
+      document.getElementById("lnglat").innerHTML = e.lnglat.lng + ',' + e.lnglat.lat
+    });
+    //实时拥堵路况图层
+    // var trafficLayer = new AMap.TileLayer.Traffic({
+    //   zIndex: 10
+    // });
+    // // map.add(trafficLayer);
+    // //卫星
+    // var satellite = new AMap.TileLayer.Satellite({
+    //   zIndex: 9
+    // });
+    // // map.add(satellite);
+    // //线路
+    // var roadNet = new AMap.TileLayer.RoadNet({
+    //   zIndex: 11
+    // });
+    // // map.add(roadNet);
+
+    // // map.add( new AMap.Buildings({
+    // //         zooms: [16, 18],
+    // //         zIndex: 10,
+    // //         heightFactor: 2 //2倍于默认高度，3D下有效
+    // //     }))
+    // //
+    // // indoorMap.showIndoorMap('B000A9VHIG');
+
+  }).catch((e) => {
+    console.error(e);  //加载错误提示
+  });
+
+</script>
+</script>
+
+</html>
